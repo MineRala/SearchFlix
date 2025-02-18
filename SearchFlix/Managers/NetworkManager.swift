@@ -20,7 +20,7 @@ final class NetworkManager: NetworkManagerProtocol {
             return
         }
         URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error {
+            if let _ = error {
                 completed(.failure(.unableToComplete))
                 return
             }
