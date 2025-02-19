@@ -12,8 +12,8 @@ final class CollectionViewCell: UICollectionViewCell {
         let view = UIView()
         view.clipsToBounds = true
         view.layer.cornerRadius = 10
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = 2
+        view.layer.borderColor = UIColor.darkGray.cgColor
+        view.layer.borderWidth = 1
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -45,16 +45,16 @@ final class CollectionViewCell: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
 
         NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
-            posterImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
-            posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8)
+            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            posterImageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
 

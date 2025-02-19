@@ -30,6 +30,9 @@ final class TableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
+        label.numberOfLines = 2
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -63,29 +66,23 @@ final class TableViewCell: UITableViewCell {
         containerView.addSubview(typeAndYearLabel)
 
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
 
-        NSLayoutConstraint.activate([
-            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
-            posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8),
-            posterImageView.widthAnchor.constraint(equalToConstant: 100)
-        ])
+            posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
+            posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            posterImageView.widthAnchor.constraint(equalToConstant: 100),
 
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: posterImageView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 4),
-            titleLabel.heightAnchor.constraint(equalToConstant: 32)
-        ])
+            titleLabel.topAnchor.constraint(equalTo: posterImageView.topAnchor, constant: 8),
+            titleLabel.leadingAnchor.constraint(equalTo: posterImageView.trailingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10),
 
-        NSLayoutConstraint.activate([
             typeAndYearLabel.bottomAnchor.constraint(equalTo: posterImageView.bottomAnchor, constant: -8),
-            typeAndYearLabel.leadingAnchor.constraint(equalTo: posterImageView.leadingAnchor),
-            typeAndYearLabel.heightAnchor.constraint(equalToConstant: 32)
+            typeAndYearLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            typeAndYearLabel.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
 
@@ -98,6 +95,5 @@ final class TableViewCell: UITableViewCell {
         }
         titleLabel.text = movie.title
         typeAndYearLabel.text = "\(movie.type) - \(movie.year)"
-
     }
 }

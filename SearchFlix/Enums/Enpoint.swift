@@ -7,12 +7,12 @@
 
 import Foundation
 
-//http://www.omdbapi.com/?s=movieSearchTitle&apikey=48a7fc03
-//http://www.omdbapi.com/?i=movieIMBID=&apikey=48a7fc03
+//https://www.omdbapi.com/?s=movieSearchTitle&apikey=48a7fc03
+//https://www.omdbapi.com/?i=movieIMBID=&apikey=48a7fc03
 
 enum Endpoint {
     enum Constant {
-        static let baseURL = "http://www.omdbapi.com"
+        static let baseURL = "https://www.omdbapi.com"
         static let apiKey = "48a7fc03"
     }
 

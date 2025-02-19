@@ -9,6 +9,10 @@ import Foundation
 
 struct SearchModel: Decodable {
     var search: [MovieModel]
+    
+    enum CodingKeys: String, CodingKey {
+        case search = "Search"
+    }
 }
 
 struct MovieModel: Decodable {
