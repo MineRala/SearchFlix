@@ -146,6 +146,7 @@ final class HomeViewController: UIViewController {
                 self.searchPage == 1 ? self.searchMovies = success.search : self.searchMovies.append(contentsOf: success.search)
             case .failure(let failure):
                 print(failure)
+                self.showAlert(message: "Something went wrong. Please try again later.")
                 self.searchMovies.removeAll()
             }
             completion()
@@ -159,6 +160,7 @@ final class HomeViewController: UIViewController {
                 self.collectionPage == 1 ? self.collectionMovies = success.search : self.collectionMovies.append(contentsOf: success.search)
             case .failure(let failure):
                 print(failure)
+                self.showAlert(message: "Something went wrong. Please try again later.")
                 self.collectionMovies.removeAll()
             }
             completion()
