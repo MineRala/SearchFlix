@@ -87,13 +87,18 @@ final class TableViewCell: UITableViewCell {
     }
 
     func configure(with movie: MovieModel) {
+        titleLabel.text = movie.title
+        typeAndYearLabel.text = "\(movie.type) - \(movie.year)"
+
+        guard movie.image != "N/A" else {
+            posterImageView.image = UIImage(named: "na")
+            return
+        }
         CacheManager.shared.loadImage(from: movie.image) { [weak self] image in
             guard let self else { return }
             DispatchQueue.main.async {
                 self.posterImageView.image = image
             }
         }
-        titleLabel.text = movie.title
-        typeAndYearLabel.text = "\(movie.type) - \(movie.year)"
     }
 }

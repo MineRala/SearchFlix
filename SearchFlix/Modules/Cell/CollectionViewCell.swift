@@ -59,6 +59,10 @@ final class CollectionViewCell: UICollectionViewCell {
     }
 
     func configure(with imageURL: String) {
+        guard imageURL != "N/A" else {
+            posterImageView.image = UIImage(named: "na")
+            return
+        }
         CacheManager.shared.loadImage(from: imageURL) { [weak self] image in
             guard let self else { return }
             DispatchQueue.main.async {
