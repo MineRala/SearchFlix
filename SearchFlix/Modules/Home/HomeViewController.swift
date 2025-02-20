@@ -212,7 +212,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        self.navigationController?.pushViewController(DetailViewController(movie: searchMovies[indexPath.row]), animated: true)
         print("Selected movie: \(searchMovies[indexPath.row].title)")
     }
 
@@ -244,7 +244,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DetailViewController(), animated: true)
+        self.navigationController?.pushViewController(DetailViewController(movie: collectionMovies[indexPath.item]), animated: true)
         print("Selected collection item: \(collectionMovies[indexPath.item].title)")
     }
 
