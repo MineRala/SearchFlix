@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol HomeViewProtocol: AnyObject {
+    func reloadTable()
+    func reloadCollection()
+    func shorErrorAlert(_ message: String)
+    func setLoding(_ isLoading: Bool, isFirstFetch: Bool)
+    func scrollToTop()
+}
+
 final class HomeViewController: UIViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -47,34 +55,13 @@ final class HomeViewController: UIViewController {
         return indicator
     }()
 
-    private var isFirstFetch = true
-    private var searchPage = 1
-    private var collectionPage = 1
-    private var isFetchingMoreCollectionMovies = false
-    private var isFetchingMoreSearchMovies = false
-    private var searchText = "Star"
-
-    private var isLoading = false {
-        didSet {
-            loadingIndicator.isHidden = !isLoading
-            isLoading ? loadingIndicator.startAnimating() : loadingIndicator.stopAnimating()
-            tableView.isHidden = isLoading
-            if isFirstFetch {
-                collectionView.isHidden = isLoading
-            } else {
-                collectionView.isHidden = false
-            }
-        }
-    }
-
-    private var searchMovies: [MovieModel] = []
-    private var collectionMovies: [MovieModel] = []
+    var presenter: HomePresenterProtocol!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupUI()
-        fetchInitialData()
+        presenter.viewDidLoad()
     }
 
     private func setupNavigationBar() {
@@ -112,110 +99,57 @@ final class HomeViewController: UIViewController {
         ])
         collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 20, right: 0)
     }
-
-    private func fetchInitialData() {
-        isLoading = true
-        let dispatchGroup = DispatchGroup()
-
-        dispatchGroup.enter()
-        fetchSearchMovies(searchText: searchText) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                dispatchGroup.leave()
-            }
-        }
-
-        dispatchGroup.enter()
-        fetchSearchMoviesForCollection {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                dispatchGroup.leave()
-            }
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            self.isLoading = false
-            self.isFirstFetch = false
-            self.tableView.reloadData()
-            self.collectionView.reloadData()
-        }
-    }
-
-    func fetchSearchMovies(searchText: String, completion: @escaping () -> Void){
-        NetworkManager.shared.makeRequest(endpoint: .movieSearchTitle(movieSearchTitle: "\(searchText)", page: "\(searchPage)"), type: SearchModel.self) { result in
-            switch result {
-            case .success(let success):
-                self.searchPage == 1 ? self.searchMovies = success.search : self.searchMovies.append(contentsOf: success.search)
-            case .failure(let failure):
-                print(failure)
-                self.showAlert(message: "Something went wrong. Please try again later.")
-                self.searchMovies.removeAll()
-            }
-            completion()
-        }
-    }
-
-    func fetchSearchMoviesForCollection(completion: @escaping () -> Void){
-        NetworkManager.shared.makeRequest(endpoint: .movieSearchTitle(movieSearchTitle: "Comedy", page: "\(collectionPage)"), type: SearchModel.self) { result in
-            switch result {
-            case .success(let success):
-                self.collectionPage == 1 ? self.collectionMovies = success.search : self.collectionMovies.append(contentsOf: success.search)
-            case .failure(let failure):
-                print(failure)
-                self.showAlert(message: "Something went wrong. Please try again later.")
-                self.collectionMovies.removeAll()
-            }
-            completion()
-        }
-    }
-
-    private func loadMoreCollectionMovies() {
-        guard !isFetchingMoreCollectionMovies else { return }
-        isFetchingMoreCollectionMovies = true
-        collectionPage += 1
-
-        fetchSearchMoviesForCollection {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
-                self.isFetchingMoreCollectionMovies = false
-            }
-        }
-    }
-
-    private func loadMoreSearchMovies() {
-        guard !isFetchingMoreSearchMovies else { return }
-        isFetchingMoreSearchMovies = true
-        searchPage += 1
-
-        fetchSearchMovies(searchText: searchText) {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.isFetchingMoreSearchMovies = false
-            }
-        }
-    }
 }
 
-// MARK: - UITableViewDataSource, UITableViewDelegate
-extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - HomeViewProtocol
+extension HomeViewController: HomeViewProtocol {
+    func reloadTable() {
+        tableView.reloadData()
+    }
+    
+    func reloadCollection() {
+        collectionView.reloadData()
+    }
+    
+    func shorErrorAlert(_ message: String) {
+        showAlert(message: message)
+    }
+    
+    func setLoding(_ isLoading: Bool, isFirstFetch: Bool) {
+        loadingIndicator.isHidden = !isLoading
+        isLoading ? loadingIndicator.startAnimating() : loadingIndicator.stopAnimating()
+
+        tableView.isHidden = isLoading
+        collectionView.isHidden = isFirstFetch ? isLoading : false
+    }
+
+    func scrollToTop() {
+           let indexPath = IndexPath(row: 0, section: 0)
+           tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+       }
+}
+
+// MARK: - UITableViewDataSource
+extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchMovies.count
+        return presenter.searchMoviesCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let movie = searchMovies[indexPath.row]
-
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell else {
             fatalError("Unable to dequeue TableViewCell")
         }
 
         cell.selectionStyle = .none
-        cell.configure(with: movie)
-
+        cell.configure(with: presenter.getMovie(at: indexPath.row, for: .search))
         return cell
     }
+}
 
+// MARK: - UITableViewDelegate
+extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DetailViewController(movie: searchMovies[indexPath.row]), animated: true)
-        print("Selected movie: \(searchMovies[indexPath.row].title)")
+        presenter.didSelectMovie(at: indexPath.row, for: .search)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -223,41 +157,40 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == searchMovies.count - 3 && !isFetchingMoreSearchMovies {
-            loadMoreSearchMovies()
-        }
+        presenter.checkIfShouldFetchMoreMovies(at: indexPath.row, for: .search)
     }
 }
 
-// MARK: - UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDataSource
+extension HomeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return collectionMovies.count
+        return presenter.collectionMoviesCount
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let movie = collectionMovies[indexPath.item]
-
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell else {
             fatalError("Unable to dequeue CollectionViewCell")
         }
-        cell.configure(with: movie.image)
+        cell.configure(with: presenter.getMovie(at: indexPath.row, for: .collection).image)
         return cell
     }
+}
 
+// MARK: - UICollectionViewDelegate
+extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.navigationController?.pushViewController(DetailViewController(movie: collectionMovies[indexPath.item]), animated: true)
-        print("Selected collection item: \(collectionMovies[indexPath.item].title)")
+        presenter.didSelectMovie(at: indexPath.row, for: .collection)
     }
+}
 
+// MARK: - UICollectionViewDelegateFlowLayout
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 240, height: 180)
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.item == collectionMovies.count - 3 && !isFetchingMoreCollectionMovies {
-            loadMoreCollectionMovies()
-        }
+        presenter.checkIfShouldFetchMoreMovies(at: indexPath.item, for: .collection)
     }
 }
 
@@ -265,18 +198,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let text = searchBar.text, !text.isEmpty else { return }
-
-        isLoading = true
-        searchText = text
-        searchPage = 1
-
-        searchMovies.removeAll()
-
-        fetchSearchMovies(searchText: searchText) {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-                self.isLoading = false
-            }
-        }
+        presenter.searchMovies(searchText: text)
     }
 }
