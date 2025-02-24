@@ -14,7 +14,7 @@ protocol HomeRouterProtocol: AnyObject {
 final class HomeRouter: HomeRouterProtocol {
     func navigateToDetail(from view: HomeViewProtocol, movie: MovieModel) {
         guard let viewController = view as? UIViewController else { return }
-        let detailVC = DetailViewController(movie: movie)
+        let detailVC = DetailBuilder.build(with: movie)
         viewController.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
