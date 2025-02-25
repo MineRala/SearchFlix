@@ -8,8 +8,8 @@
 import UIKit
 
 extension UIImage {
-    static func fromData(_ imageData: Data?) -> UIImage {
-        guard let data = imageData, let image = UIImage(data: data) else {
+    static func fromImage(_ image: UIImage?) -> UIImage {
+        guard let image = image else {
             return UIImage(named: "na") ?? UIImage()
         }
         return image

@@ -11,6 +11,10 @@ protocol DetailPresenterProtocol: AnyObject {
     func viewDidLoad()
 }
 
+protocol DetailInteractorOutput: AnyObject {
+    func didFetchMovieDetails(_ movie: MovieModel, image: UIImage?)
+}
+
 final class DetailPresenter {
     weak var view: DetailViewProtocol?
     private let interactor: DetailInteractorProtocol
@@ -30,7 +34,7 @@ extension DetailPresenter: DetailPresenterProtocol {
 
 // MARK: - DetailInteractorOutput
 extension DetailPresenter: DetailInteractorOutput {
-    func didFetchMovieDetails(_ movie: MovieModel, imageData: Data?) {
-        view?.displayMovieDetails(movie, image: UIImage.fromData(imageData))
+    func didFetchMovieDetails(_ movie: MovieModel, image: UIImage?) {
+        view?.displayMovieDetails(movie, image: UIImage.fromImage(image))
     }
 }

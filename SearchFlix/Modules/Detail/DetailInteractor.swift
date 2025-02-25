@@ -12,10 +12,6 @@ protocol DetailInteractorProtocol: AnyObject{
     func getMovieDetails()
 }
 
-protocol DetailInteractorOutput: AnyObject {
-    func didFetchMovieDetails(_ movie: MovieModel, imageData: Data?)
-}
-
 final class DetailInteractor {
     public weak var output: DetailInteractorOutput?
     private let cacheManager: CacheManagerInterface
@@ -28,14 +24,15 @@ final class DetailInteractor {
 }
 
 // MARK: - DetailInteractorProtocol
-extension DetailInteractor:  DetailInteractorProtocol {
+extension DetailInteractor: DetailInteractorProtocol {
     func getMovieDetails() {
         if movie.image == "N/A" {
-            output?.didFetchMovieDetails(movie, imageData: nil)
+            output?.didFetchMovieDetails(movie, image: nil)
         } else {
-            let cachedImage = cacheManager.getImage(for: movie.image)
-            let imageData = cachedImage?.pngData()
-            output?.didFetchMovieDetails(movie, imageData: imageData)
+            cacheManager.loadImage(from: movie.image) { [weak self] image in
+                guard let self else { return }
+                self.output?.didFetchMovieDetails(self.movie, image: image)
+            }
         }
     }
 }
