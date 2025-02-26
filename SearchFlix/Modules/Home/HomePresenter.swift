@@ -121,7 +121,6 @@ extension HomePresenter: HomeInteractorOutputProtocol {
         DispatchQueue.main.async {
             self.isFetchingMovies[type] = false
 
-            // Sayfa kontrolü
             if self.currentPages[type] == 1 {
                 self.movies[type] = movies
             } else {

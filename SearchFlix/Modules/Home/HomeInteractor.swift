@@ -26,11 +26,11 @@ protocol HomeInteractorOutputProtocol: AnyObject {
 final class HomeInteractor: HomeInteractorProtocol {
     private let networkManager: NetworkManagerProtocol
     public weak var output: HomeInteractorOutputProtocol?
-
+    
     init(networkService: NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkService
     }
-
+    
     func fetchMovies(type: FetchType, text: String?, page: Int) {
         let queryText: String
         switch type {
@@ -39,9 +39,9 @@ final class HomeInteractor: HomeInteractorProtocol {
         case .collection:
             queryText = "Comedy"
         }
-
+        
         let endpoint = Endpoint.movieSearchTitle(movieSearchTitle: queryText, page: "\(page)")
-
+        
         networkManager.makeRequest(endpoint: endpoint, type: SearchModel.self) { [weak self] result in
             guard let self else { return }
             switch result {

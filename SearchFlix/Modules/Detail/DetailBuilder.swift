@@ -15,7 +15,7 @@ class DetailBuilder {
         
         detailViewController.presenter = presenter
         interactor.output = presenter
-
+        
         return detailViewController
     }
 }

@@ -16,7 +16,7 @@ final class DetailInteractor {
     public weak var output: DetailInteractorOutput?
     private let cacheManager: CacheManagerInterface
     private let movie: MovieModel
-
+    
     init(cacheManager: CacheManagerInterface = CacheManager.shared, movie: MovieModel) {
         self.cacheManager = cacheManager
         self.movie = movie

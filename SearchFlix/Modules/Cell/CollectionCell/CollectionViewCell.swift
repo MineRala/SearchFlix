@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CollectionViewCellProtocol: AnyObject {
+    func displayImage(_ image: UIImage)
+}
+
 final class CollectionViewCell: UICollectionViewCell {
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -17,39 +21,41 @@ final class CollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     private lazy var posterImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
+    
+    var presenter: CollectionCellPresenterProtocol!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func prepareForReuse() {
         posterImageView.image = nil
     }
-
-    private func setupUI() {
+    
+    func setupUI() {
         contentView.addSubview(containerView)
         containerView.addSubview(posterImageView)
-
+        
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             posterImageView.topAnchor.constraint(equalTo: containerView.topAnchor),
             posterImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
@@ -57,17 +63,17 @@ final class CollectionViewCell: UICollectionViewCell {
             posterImageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
-
+    
     func configure(with imageURL: String) {
-        guard imageURL != "N/A" else {
-            posterImageView.image = UIImage(named: "na")
-            return
-        }
-        CacheManager.shared.loadImage(from: imageURL) { [weak self] image in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.posterImageView.image = image
-            }
+        presenter?.loadImage(for: imageURL)
+    }
+}
+
+// MARK: - CollectionViewCellProtocol
+extension CollectionViewCell: CollectionViewCellProtocol {
+    func displayImage(_ image: UIImage) {
+        DispatchQueue.performOnMainThread {
+            self.posterImageView.image = image
         }
     }
 }

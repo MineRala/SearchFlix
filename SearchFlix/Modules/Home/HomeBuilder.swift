@@ -13,10 +13,10 @@ class HomeBuilder {
         let router = HomeRouter()
         let interactor = HomeInteractor()
         let presenter = HomePresenter(view: homeViewController, interactor: interactor, router: router)
-
+        
         homeViewController.presenter = presenter
         interactor.output = presenter
-
+        
         return homeViewController
     }
 }

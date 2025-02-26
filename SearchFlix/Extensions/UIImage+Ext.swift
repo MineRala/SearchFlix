@@ -9,7 +9,7 @@ import UIKit
 
 extension UIImage {
     static func fromImage(_ image: UIImage?) -> UIImage {
-        guard let image = image else {
+        guard let image else {
             return UIImage(named: "na") ?? UIImage()
         }
         return image
