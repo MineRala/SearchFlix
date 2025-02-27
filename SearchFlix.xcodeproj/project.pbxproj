@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		E89B958A2D6FC40C00608C78 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E8CD57B22D63854400EAC93E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E8CD57B92D63854400EAC93E;
+			remoteInfo = SearchFlix;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		E89B95862D6FC40B00608C78 /* SearchFlixTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SearchFlixTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8CD57BA2D63854400EAC93E /* SearchFlix.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SearchFlix.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		E89B95872D6FC40B00608C78 /* SearchFlixTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SearchFlixTests;
+			sourceTree = "<group>";
+		};
 		E8CD57BC2D63854400EAC93E /* SearchFlix */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E89B95832D6FC40B00608C78 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8CD57B72D63854400EAC93E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				E8CD57BC2D63854400EAC93E /* SearchFlix */,
+				E89B95872D6FC40B00608C78 /* SearchFlixTests */,
 				E8CD57BB2D63854400EAC93E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				E8CD57BA2D63854400EAC93E /* SearchFlix.app */,
+				E89B95862D6FC40B00608C78 /* SearchFlixTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E89B95852D6FC40B00608C78 /* SearchFlixTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E89B958C2D6FC40C00608C78 /* Build configuration list for PBXNativeTarget "SearchFlixTests" */;
+			buildPhases = (
+				E89B95822D6FC40B00608C78 /* Sources */,
+				E89B95832D6FC40B00608C78 /* Frameworks */,
+				E89B95842D6FC40B00608C78 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E89B958B2D6FC40C00608C78 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				E89B95872D6FC40B00608C78 /* SearchFlixTests */,
+			);
+			name = SearchFlixTests;
+			packageProductDependencies = (
+			);
+			productName = SearchFlixTests;
+			productReference = E89B95862D6FC40B00608C78 /* SearchFlixTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E8CD57B92D63854400EAC93E /* SearchFlix */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E8CD57CD2D63854700EAC93E /* Build configuration list for PBXNativeTarget "SearchFlix" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					E89B95852D6FC40B00608C78 = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = E8CD57B92D63854400EAC93E;
+					};
 					E8CD57B92D63854400EAC93E = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -115,11 +167,19 @@
 			projectRoot = "";
 			targets = (
 				E8CD57B92D63854400EAC93E /* SearchFlix */,
+				E89B95852D6FC40B00608C78 /* SearchFlixTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E89B95842D6FC40B00608C78 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8CD57B82D63854400EAC93E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,6 +190,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E89B95822D6FC40B00608C78 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E8CD57B62D63854400EAC93E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,7 +206,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E89B958B2D6FC40C00608C78 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E8CD57B92D63854400EAC93E /* SearchFlix */;
+			targetProxy = E89B958A2D6FC40C00608C78 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		E89B958D2D6FC40C00608C78 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 29JK24NZ4B;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MineRala.SearchFlixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchFlix.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SearchFlix";
+			};
+			name = Debug;
+		};
+		E89B958E2D6FC40C00608C78 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 29JK24NZ4B;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.MineRala.SearchFlixTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SearchFlix.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SearchFlix";
+			};
+			name = Release;
+		};
 		E8CD57CE2D63854700EAC93E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -328,6 +439,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E89B958C2D6FC40C00608C78 /* Build configuration list for PBXNativeTarget "SearchFlixTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E89B958D2D6FC40C00608C78 /* Debug */,
+				E89B958E2D6FC40C00608C78 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E8CD57B52D63854400EAC93E /* Build configuration list for PBXProject "SearchFlix" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
