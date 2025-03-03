@@ -14,10 +14,9 @@ protocol CacheManagerInterface {
 }
 
 final class CacheManager: CacheManagerInterface {
-    static let shared = CacheManager()
     private let imageCache = NSCache<NSString, UIImage>()
 
-    private init() {}
+    init() {}
 
     func getImage(for url: String) -> UIImage? {
         return imageCache.object(forKey: url as NSString)

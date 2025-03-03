@@ -15,7 +15,7 @@ final class TableViewCellInteractor: TableViewCellInteractorProtocol {
     public weak var output: TableViewCellInteractorOutputProtocol?
     private let cacheManager: CacheManagerInterface
     
-    init(cacheManager: CacheManagerInterface = CacheManager.shared) {
+    init(cacheManager: CacheManagerInterface) {
         self.cacheManager = cacheManager
     }
     

@@ -10,7 +10,7 @@ import UIKit
 class DetailBuilder {
     static func build(with movie: MovieModel) -> UIViewController {
         let detailViewController = DetailViewController()
-        let interactor = DetailInteractor(movie: movie)
+        let interactor = DetailInteractor(cacheManager: CacheManager(), movie: movie)
         let presenter = DetailPresenter(view: detailViewController, interactor: interactor)
         
         detailViewController.presenter = presenter

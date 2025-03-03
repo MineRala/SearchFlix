@@ -49,7 +49,6 @@ final class HomePresenter {
     }
 
     private func fetchMovies(type: FetchType) {
-        guard isFetchingMovies[type] == false else { return }
         isFetchingMovies[type] = true
         let page = currentPages[type] ?? 1
 
@@ -111,9 +110,7 @@ extension HomePresenter: HomePresenterProtocol {
               isFetchingMovies[type] == false else { return }
         fetchMovies(type: type)
     }
-
 }
-
 
 // MARK: - HomeInteractorOutputProtocol
 extension HomePresenter: HomeInteractorOutputProtocol {
@@ -123,16 +120,25 @@ extension HomePresenter: HomeInteractorOutputProtocol {
 
             if self.currentPages[type] == 1 {
                 self.movies[type] = movies
+                self.reloadView(for: type)
             } else {
+                // Yeni verileri ekleyelim (flickering'i önlemek için)
+                let startIndex = self.movies[type]?.count ?? 0
                 self.movies[type]?.append(contentsOf: movies)
+
+                let newIndexPaths = (startIndex..<self.movies[type]!.count).map { IndexPath(row: $0, section: 0) }
+                if type == .search {
+                    self.view?.updateTableView(with: newIndexPaths)
+                } else {
+                    self.view?.updateCollectionView(with: newIndexPaths)
+                }
             }
 
             self.currentPages[type]? += 1
-            self.reloadView(for: type)
 
             if self.isInitialFetch {
                 // İlk yükleme sırasında her iki işlem tamamlandığında loading'i kapat
-                if !self.isFetchingMovies[.search]! && !self.isFetchingMovies[.collection]! {
+                if !(self.isFetchingMovies[.search] ?? false) && !(self.isFetchingMovies[.collection] ?? false) {
                     self.isInitialFetch = false
                     self.hideLoading()
                 }

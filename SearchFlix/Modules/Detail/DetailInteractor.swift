@@ -17,7 +17,7 @@ final class DetailInteractor {
     private let cacheManager: CacheManagerInterface
     private let movie: MovieModel
     
-    init(cacheManager: CacheManagerInterface = CacheManager.shared, movie: MovieModel) {
+    init(cacheManager: CacheManagerInterface, movie: MovieModel) {
         self.cacheManager = cacheManager
         self.movie = movie
     }

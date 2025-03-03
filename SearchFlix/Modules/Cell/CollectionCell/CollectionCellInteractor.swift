@@ -16,7 +16,7 @@ final class CollectionCellInteractor: CollectionCellInteractorProtocol {
     public weak var output: CollectionCellInteractorOutput?
     private let cacheManager: CacheManagerInterface
     
-    init(cacheManager: CacheManagerInterface = CacheManager.shared) {
+    init(cacheManager: CacheManagerInterface) {
         self.cacheManager = cacheManager
     }
     

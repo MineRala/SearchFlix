@@ -7,7 +7,7 @@
 
 import Foundation
 
-//https://www.omdbapi.com/?s=movieSearchTitle&apikey=48a7fc03
+//https://www.omdbapi.com/?s=movieSearchTitle&page=1&apikey=48a7fc03
 //https://www.omdbapi.com/?i=movieIMBID=&apikey=48a7fc03
 
 enum Endpoint {

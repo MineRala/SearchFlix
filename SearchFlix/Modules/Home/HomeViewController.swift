@@ -13,6 +13,8 @@ protocol HomeViewProtocol: AnyObject {
     func shorErrorAlert(_ message: String)
     func setLoding(_ isLoading: Bool, isFirstFetch: Bool)
     func scrollToTop()
+    func updateTableView(with indexPaths: [IndexPath])
+    func updateCollectionView(with indexPaths: [IndexPath])
 }
 
 final class HomeViewController: UIViewController {
@@ -127,6 +129,14 @@ extension HomeViewController: HomeViewProtocol {
         let indexPath = IndexPath(row: 0, section: 0)
         tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
+
+    func updateTableView(with indexPaths: [IndexPath]) {
+        tableView.insertRows(at: indexPaths, with: .none)
+    }
+
+    func updateCollectionView(with indexPaths: [IndexPath]) {
+        collectionView.insertItems(at: indexPaths)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -159,7 +169,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        presenter.checkIfShouldFetchMoreMovies(at: indexPath.row, for: .search)
+        self.presenter.checkIfShouldFetchMoreMovies(at: indexPath.row, for: .search)
     }
 }
 

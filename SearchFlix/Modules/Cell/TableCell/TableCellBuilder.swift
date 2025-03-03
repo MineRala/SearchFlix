@@ -10,7 +10,7 @@ import Foundation
 final class TableCellBuilder {
     @discardableResult
     static func build(cell: TableViewCell) -> TableViewCell {
-        let interactor = TableViewCellInteractor()
+        let interactor = TableViewCellInteractor(cacheManager: CacheManager())
         let presenter = TableViewCellPresenter(view: cell, interactor: interactor)
         
         cell.presenter = presenter
