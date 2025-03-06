@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchModel: Decodable {
+struct SearchModel: Codable {
     var search: [MovieModel]
     
     enum CodingKeys: String, CodingKey {
@@ -15,7 +15,7 @@ struct SearchModel: Decodable {
     }
 }
 
-struct MovieModel: Decodable {
+struct MovieModel: Codable, Equatable {
     var title: String
     var year: String
     var id: String

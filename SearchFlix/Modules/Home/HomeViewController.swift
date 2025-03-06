@@ -212,7 +212,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - UISearchBarDelegate
 extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        guard let text = searchBar.text, !text.isEmpty else { return }
+        guard let text = searchBar.text?.trimmingCharacters(in: .whitespacesAndNewlines), !text.isEmpty else { return }
         presenter.searchMovies(searchText: text)
     }
 }
