@@ -32,7 +32,7 @@ final class HomePresenter {
     private weak var view: HomeViewProtocol?
     private let interactor: HomeInteractorProtocol
     private let router: HomeRouterProtocol
-    private var movies: [FetchType: [MovieModel]] = [.search: [], .collection: []]
+    public var movies: [FetchType: [MovieModel]] = [.search: [], .collection: []]
 
     init(view: HomeViewProtocol, interactor: HomeInteractorProtocol, router: HomeRouterProtocol) {
         self.view = view
